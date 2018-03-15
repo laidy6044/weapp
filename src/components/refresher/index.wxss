@@ -3,6 +3,7 @@
   height: 100%;
   transition: transform 0.4s;
   transform: translate3d(0px, 0px, 0px) scale(1);
+  overflow: visible;
 }
 
 .wux-refresher {

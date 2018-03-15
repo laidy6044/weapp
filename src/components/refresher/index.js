@@ -18,12 +18,14 @@ Component({
     disablePullingRotation: !1,
     distance: 30,
     lastTime: 0,
-    activated: !1,
+    // activated: !1,
     style: ``,
     defaultStyle: `transition: transform .4s; transform: translate3d(0px, 0px, 0px) scale(1);`,
     isRefreshing: !1, //是否正在刷新
-    onPulling() { },
-    onRefresh() { },
+    // onPulling() { },
+    // onRefresh() { },
+    refresherContainerTop: 0,
+    isFirst: true,
   },
 
   /**
@@ -87,10 +89,20 @@ Component({
     },
     touchstart(e) {
       if (this.isRefreshing) return !1
-      const p = this.getTouchPosition(e)
-      this.start = p
-      this.diffX = this.diffY = 0
-      this.activate()
+	  let query = wx.createSelectorQuery().in(this)
+      query.select('#refresherContainer').boundingClientRect((res) => {
+        console.log('res: ', res)
+        if (this.data.isFirst)
+          this.setData({
+            scrollTop: res.top,
+            isFirst: false
+          })
+        if (res.top !== this.data.scrollTop) return !1
+        const p = this.getTouchPosition(e)
+        this.start = p
+        this.diffX = this.diffY = 0
+        this.activate()
+      }).exec()
     },
     touchmove(e) {
       if (!this.start || this.isRefreshing) return !1
@@ -101,7 +113,7 @@ Component({
       this.diffY = Math.pow(this.diffY, 0.8)
       if (!this.activated && this.diffY > this.data.distance) {
         this.activated = !0
-        typeof this.data.onPulling === `function` && this.data.onPulling()
+        // typeof this.data.onPulling === `function` && this.data.onPulling()
       } else if (this.activated && this.diffY < this.data.distance) {
         this.activated = !1
       }
@@ -114,7 +126,7 @@ Component({
       if (Math.abs(this.diffY) >= this.data.distance) {
         this.triggerEvent('refresh')
         this.refreshing()
-        typeof this.data.onRefresh === `function` && this.data.onRefresh()
+        // typeof this.data.onRefresh === `function` && this.data.onRefresh()
       }
     }
   }

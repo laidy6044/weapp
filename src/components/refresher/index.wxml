@@ -1,4 +1,4 @@
-<view class="refresher-container" style="{{ style }}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
+<view id='refresherContainer' class="refresher-container" style="{{ style }}" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
   <view class="wux-refresher {{ className || 'hidden' }}">
     <view class="wux-refresher__content {{ pullingText || refreshingText ? 'wux-refresher__content--text' : '' }}">
       <view class="wux-refresher__icon-pulling {{ disablePullingRotation ? 'wux-refresher__icon-pulling--disabled' : '' }}">
