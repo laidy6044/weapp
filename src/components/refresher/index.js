@@ -109,7 +109,7 @@ Component({
       const p = this.getTouchPosition(e)
       this.diffX = p.x - this.start.x
       this.diffY = p.y - this.start.y
-      if (this.diffY < 0) return !1
+      if (this.diffY < 0 || Math.abs(this.diffX) > Math.abs(this.diffY)) return !1
       this.diffY = Math.pow(this.diffY, 0.8)
       if (!this.activated && this.diffY > this.data.distance) {
         this.activated = !0
